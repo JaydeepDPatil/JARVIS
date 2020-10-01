@@ -37,7 +37,13 @@ class MyFrame(wx.Frame):
         panel.SetSizer(my_sizer)
         self.Show()
         speak.Speak('''Welcome back Sir, Jarvis at your service.''')
-
+    def weather():
+        owm = OWM('your-API-key')  # You MUST provide a valid API key (which is free, btw)
+        mgr = owm.weather_manager()
+        observation = mgr.weather_at_place('London,GB')#replace with appropiate city
+        w = observation.weather
+        print(w.wind(), w.humidity, w.temperature('celsius'))
+	speak.Speak(w.wind(), w.humidity, w.temperature('celsius'))
     def OnEnter(self, event):
         put = self.txt.GetValue()
         put = put.lower()
@@ -93,6 +99,8 @@ class MyFrame(wx.Frame):
             speak.Speak('opening the facebook please wait')
 			open_the_fb()
 		#facebook logout
+        elif put.startswith('weather'):
+		weather()
         elif put.startswith('logout from fb') or put.startswith('fb logout'):
             close_fb()
 			speak.Speak('sucessfully logged out')
